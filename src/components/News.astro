@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import { inline } from '../lib/inline';
+
+const LIMIT = 6;
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, LIMIT);
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+---
+
+<section id="news" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>News</h2>
+    </div>
+    <ul>
+      {
+        news.map((n) => (
+          <li>
+            <time datetime={n.data.date.toISOString().slice(0, 10)}>{fmt.format(n.data.date)}</time>
+            <span>
+              <Fragment set:html={inline(n.data.text)} />
+              {n.data.link && (
+                <>
+                  {' '}
+                  <a href={n.data.link}>→</a>
+                </>
+              )}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  time {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--faint);
+    padding-top: 0.15rem;
+  }
+
+  @media (max-width: 30rem) {
+    li {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>

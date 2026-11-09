@@ -1,0 +1,114 @@
+---
+import { education, otherResearch, service, skills, profile } from '../data/profile';
+---
+
+<section id="background" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Background</h2>
+    </div>
+
+    <div class="grid">
+      <div>
+        <h3 class="eyebrow">Education</h3>
+        <ul class="edu">
+          {
+            education.map((e) => (
+              <li>
+                <p class="row">
+                  <strong>{e.school}</strong>
+                  <span class="dates">{e.dates}</span>
+                </p>
+                <p>{e.degree}</p>
+                <p class="muted">{e.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3 class="eyebrow">Service</h3>
+        <ul class="plain">{service.map((s) => <li>{s}</li>)}</ul>
+
+        <h3 class="eyebrow">Skills</h3>
+        <p class="muted">{skills.join(' · ')}</p>
+      </div>
+
+      <div>
+        <h3 class="eyebrow">Other research</h3>
+        <ul class="edu">
+          {
+            otherResearch.map((r) => (
+              <li>
+                <p><strong>{r.title}</strong></p>
+                <p class="muted small">{r.meta}</p>
+                <p class="small">{r.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="small">
+          Full details, including earlier projects and internships, are in my <a href={profile.links.cv}>CV (PDF)</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+
+  h3.eyebrow {
+    font-weight: 400;
+    margin: 0 0 0.75rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+  }
+
+  .edu li + li {
+    margin-top: 1rem;
+  }
+
+  .edu p {
+    margin: 0;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .dates {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--faint);
+  }
+
+  .plain li {
+    margin-bottom: 0.25rem;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .small {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 44rem) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>

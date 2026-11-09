@@ -1,0 +1,122 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { profile } from '../data/profile';
+
+const all = await getCollection('publications');
+const by = (cat: CollectionEntry<'publications'>['data']['category']) =>
+  all.filter((p) => p.data.category === cat).sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
+
+const groups = [
+  { title: 'Papers', items: by('main') },
+  { title: 'In preparation', items: by('preparation') },
+  { title: 'Earlier work', items: by('earlier') },
+].filter((g) => g.items.length > 0);
+
+const linkLabels = { paper: 'Paper', project: 'Project', code: 'Code', video: 'Video' } as const;
+---
+
+<section id="publications" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Publications</h2>
+    </div>
+
+    {
+      groups.map((g) => (
+        <div class="group">
+          <h3 class="eyebrow">{g.title}</h3>
+          <ol class="pubs">
+            {g.items.map((p) => {
+              const links = Object.entries(p.data.links).filter(([, v]) => v) as [keyof typeof linkLabels, string][];
+              return (
+                <li>
+                  <p class="title">{p.data.title}</p>
+                  <p class="authors">
+                    {p.data.authors.map((a, i) => (
+                      <>
+                        {i > 0 && ', '}
+                        {a === profile.name ? <strong>{a}</strong> : a}
+                      </>
+                    ))}
+                  </p>
+                  <p class="venue">
+                    <span>
+                      <em>{p.data.venue}</em>
+                      {p.data.category !== 'preparation' && `, ${p.data.year}`}
+                    </span>
+                    {p.data.award && <span class="badge">{p.data.award}</span>}
+                  </p>
+                  {p.data.extraVenues.map((v) => (
+                    <p class="venue also">Also at {v}</p>
+                  ))}
+                  {links.length > 0 && (
+                    <p class="links">
+                      {links.map(([k, href]) => (
+                        <a href={href}>[{linkLabels[k]}]</a>
+                      ))}
+                    </p>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .group + .group {
+    margin-top: 2rem;
+  }
+
+  .group > .eyebrow {
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+
+  .pubs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  li p {
+    margin: 0;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .authors {
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+
+  .authors strong {
+    color: var(--fg);
+  }
+
+  .venue {
+    font-size: 0.93rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.5rem;
+  }
+
+  .venue.also {
+    color: var(--muted);
+  }
+
+  .links {
+    font-size: 0.88rem;
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.15rem !important;
+  }
+</style>

@@ -1,0 +1,144 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', (p) => p.data.hasPage);
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const resources = [
+  { label: 'Demo site', href: d.links.project },
+  { label: 'Paper', href: d.links.paper },
+  { label: 'Code', href: d.links.code },
+  { label: 'Video', href: d.links.video },
+].filter((r) => r.href);
+---
+
+<Base title={`${d.title}: ${d.subtitle} · Jianwen Lyu`} description={d.question}>
+  <article class="wrap page">
+    <p><a href="/#research">← Back to research</a></p>
+
+    <header>
+      <h1>{d.title}</h1>
+      <p class="subtitle">{d.subtitle}</p>
+      <p class="badges">
+        <span class="badge">{d.role}</span>
+        <span class="badge plain">{d.status}</span>
+      </p>
+      {
+        resources.length > 0 && (
+          <div class="btn-row">
+            {resources.map((r, i) => (
+              <a class:list={['btn', { primary: i === 0 }]} href={r.href}>
+                {r.label}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="hero-media">
+      <Media src={d.cover} poster={d.poster} alt={d.coverAlt} label={d.title} />
+    </div>
+
+    <div class="cols">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <aside>
+        <h2 class="eyebrow">Research question</h2>
+        <p>{d.question}</p>
+        <h2 class="eyebrow">My contribution</h2>
+        <ul>{d.contribution.map((c) => <li>{c}</li>)}</ul>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .page {
+    padding-block: 2.5rem 4rem;
+  }
+
+  header {
+    margin: 1.5rem 0 2rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+  }
+
+  .subtitle {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--muted);
+    margin: 0.3rem 0 0.9rem;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .hero-media {
+    margin-bottom: 2.5rem;
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  aside {
+    position: sticky;
+    top: 5rem;
+    font-size: 0.92rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  aside h2 {
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+
+  aside h2 + p,
+  aside ul {
+    margin-bottom: 1.2rem;
+  }
+
+  aside ul {
+    padding-left: 1.1rem;
+    margin-top: 0;
+  }
+
+  aside li {
+    margin-bottom: 0.35rem;
+  }
+
+  @media (max-width: 52rem) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+    aside {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

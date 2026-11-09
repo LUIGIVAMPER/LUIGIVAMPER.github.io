@@ -1,0 +1,48 @@
+---
+title: RoboARC
+subtitle: Spatial-Constraint Puzzles for Robot Manipulation
+role: Co-lead
+status: Ongoing · Public preview · Paper in preparation
+stage: acting
+order: 1
+cover: /images/projects/roboarc.mp4
+poster: /images/projects/roboarc.jpg
+coverAlt: Two simulated robot arms disentangling two interlocked claws in RoboARC
+question: Can a coding agent write a robot policy whose motion actually solves a physical puzzle, when pieces are hooked, threaded, knotted, or caged and only the right sequence of moves works?
+contribution:
+  - Co-lead the project, from the research question to the benchmark design.
+  - Defined the manipulation capabilities and a task taxonomy spanning contact, threading, interlocking, and deformable objects; designed most of the tasks.
+  - Developed most of the simulation infrastructure, building on the simulator and code of TopoGym, an earlier topology-sensitive VLA prototype.
+  - Built controlled environments and reproducible evaluation protocols that measure constraint satisfaction and support trajectory-level failure diagnosis.
+findings: []
+links:
+  project: https://roboarc.embodied-first-exam.ai
+hasPage: true
+---
+
+## Motivation
+
+Language models can often *describe* how to separate two interlocked claws or thread a rope through a ring. Turning that description into robot motion that works is a different problem. Pulling only jams the pieces. They come apart only when turned in the right order, and the constraint has to hold at every step, not just at the goal. RoboARC asks where the gap between language reasoning, program generation, and physical feasibility actually opens up.
+
+## The benchmark
+
+RoboARC is a benchmark of **98 physical puzzles in 14 families**: interlocked claws, cast-metal brainteasers, a caged hedgehog, a lock, a buzz wire, fibers, knots, threaded rope, chains, and cloth to flatten or fold. Tasks range from very easy to hard.
+
+- **Frozen simulation instances.** Every task starts from the same state. Rigid, rope, and chain puzzles run on MuJoCo; cloth runs on a deterministic GPU cloth solver.
+- **Coding agents drive the robot.** An agent gets three hours and controls a simulated robot, either two ALOHA arms or one Franka Panda arm, by writing code.
+- **Replay-verified grading.** An attempt counts only if its recorded motion solves the puzzle again when replayed open-loop in a fresh simulator.
+
+## Two evaluation modes
+
+Every task is posed twice, for **196 tasks** in total.
+
+- **Privileged:** the agent codes with the simulator open. It can read object poses and scene state, and reset and replay without limit within the time budget.
+- **Standard:** the robot is a remote service. The agent sees only camera images (overhead and two wrist views) and the robot's own state, gets a single episode, and has no resets, as on real hardware.
+
+## Origins: TopoGym
+
+RoboARC grew out of **TopoGym**, an internal prototype for evaluating vision-language-action models on topology-sensitive manipulation. RoboARC reuses its simulator and code base and shifts the focus to agent-generated control policies.
+
+## Status
+
+A public preview with reference solutions for every puzzle family is on the [RoboARC site](https://roboarc.embodied-first-exam.ai). The paper, code, and first evaluation of coding agents (with VLA policies ranked separately) will be released together.

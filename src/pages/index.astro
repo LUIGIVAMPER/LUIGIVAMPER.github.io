@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ResearchArc from '../components/ResearchArc.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Interests from '../components/Interests.astro';
+import Publications from '../components/Publications.astro';
+import Background from '../components/Background.astro';
+import News from '../components/News.astro';
+import Contact from '../components/Contact.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base>
+  <Hero />
+
+  <section id="research" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Research</h2>
+      </div>
+      <p class="lede">
+        My work follows one line of inquiry: from whether models <em>understand</em> physical structure, to whether agents can <em>act</em> reliably under it, toward agents that <em>adapt</em> when their assumptions about the world fail.
+      </p>
+
+      <ResearchArc />
+
+      <h3 class="eyebrow sub">Selected research</h3>
+      <div class="projects">
+        {projects.map((p, i) => <ProjectCard project={p} featured={i === 0} />)}
+      </div>
+    </div>
+  </section>
+
+  <Interests />
+  <Publications />
+  <Background />
+  <News />
+  <Contact />
+</Base>
+
+<style>
+  .lede {
+    margin-bottom: 2rem;
+  }
+
+  .sub {
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+  }
+</style>

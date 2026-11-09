@@ -1,0 +1,149 @@
+---
+import { profile } from '../data/profile';
+
+const links = [
+  { label: 'CV', href: profile.links.cv, primary: true },
+  { label: 'Google Scholar', href: profile.links.scholar },
+  { label: 'GitHub', href: profile.links.github },
+  { label: 'LinkedIn', href: profile.links.linkedin },
+  { label: 'Email', href: `mailto:${profile.email}` },
+].filter((l) => l.href);
+---
+
+<section id="about" class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="eyebrow">{profile.status}</p>
+      <h1>{profile.name}</h1>
+      <p class="affiliation">{profile.affiliation}</p>
+
+      <p class="identity">
+        <span class="vision">{profile.vision}</span>
+        <span class="focus">{profile.focus}</span>
+      </p>
+
+      <p class="statement">{profile.statement}</p>
+      <p class="bio">{profile.bio}</p>
+
+      <blockquote class="question">
+        <span class="eyebrow">Central question</span>
+        {profile.question}
+      </blockquote>
+
+      <ul class="tags" aria-label="Research areas">
+        {profile.tags.map((t) => <li class="badge plain">{t}</li>)}
+      </ul>
+
+      <div class="btn-row">
+        {links.map((l) => <a class:list={['btn', { primary: l.primary }]} href={l.href}>{l.label}</a>)}
+      </div>
+    </div>
+
+    <div class="hero-photo">
+      <img src={profile.headshot} alt={`Portrait of ${profile.name}`} width="747" height="747" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: 4rem 3.5rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    margin-top: 0.4rem;
+  }
+
+  .affiliation {
+    color: var(--muted);
+    margin: 0.35rem 0 1.5rem;
+  }
+
+  .identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .vision {
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .focus {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--fg);
+  }
+
+  .statement {
+    font-size: 1.075rem;
+    max-width: 40rem;
+  }
+
+  .bio {
+    color: var(--muted);
+    max-width: 40rem;
+  }
+
+  .question {
+    margin: 1.5rem 0;
+    padding: 0.9rem 1.1rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    max-width: 40rem;
+  }
+
+  .question .eyebrow {
+    display: block;
+    font-style: normal;
+    margin-bottom: 0.3rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+
+  @media (max-width: 44rem) {
+    .hero {
+      padding-top: 2.5rem;
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .hero-photo {
+      order: -1;
+      width: 8rem;
+    }
+  }
+</style>

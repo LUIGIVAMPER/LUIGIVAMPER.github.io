@@ -1,0 +1,180 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Media from './Media.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+const d = project.data;
+const pageHref = d.hasPage ? `/projects/${project.id}/` : undefined;
+const resources = [
+  { label: 'Project page', href: pageHref },
+  { label: 'Paper', href: d.links.paper },
+  { label: 'Demo site', href: d.links.project },
+  { label: 'Code', href: d.links.code },
+  { label: 'Video', href: d.links.video },
+].filter((r) => r.href);
+const stageLabel = { understanding: '01 · Understanding', acting: '02 · Acting', adapting: '03 · Adapting' }[d.stage];
+---
+
+<article id={`project-${project.id}`} class:list={['card', { featured }]}>
+  <a class="media-link" href={pageHref ?? undefined} tabindex={pageHref ? undefined : -1}>
+    <Media src={d.cover} poster={d.poster} alt={d.coverAlt} label={d.title} />
+  </a>
+
+  <div class="body">
+    <p class="meta">
+      <span class="eyebrow">{stageLabel}</span>
+    </p>
+    <h3>
+      {pageHref ? <a href={pageHref}>{d.title}</a> : d.title}
+    </h3>
+    <p class="subtitle">{d.subtitle}</p>
+    <p class="badges">
+      <span class="badge">{d.role}</span>
+      <span class="badge plain">{d.status}</span>
+    </p>
+
+    <p class="question"><span class="label">Research question.</span> {d.question}</p>
+
+    <details>
+      <summary>My contribution{d.findings.length > 0 && ' & key findings'}</summary>
+      <h4>My contribution</h4>
+      <ul>{d.contribution.map((c) => <li>{c}</li>)}</ul>
+      {
+        d.findings.length > 0 && (
+          <>
+            <h4>Key findings</h4>
+            <ul>{d.findings.map((f) => <li>{f}</li>)}</ul>
+          </>
+        )
+      }
+    </details>
+
+    {
+      resources.length > 0 && (
+        <div class="btn-row resources">
+          {resources.map((r) => (
+            <a class="btn" href={r.href}>
+              {r.label}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: grid;
+    grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+    gap: 1.75rem;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .card:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .card.featured {
+    grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  }
+
+  .media-link {
+    display: block;
+    align-self: start;
+  }
+
+  .meta {
+    margin-bottom: 0.25rem;
+  }
+
+  h3 {
+    font-size: 1.45rem;
+  }
+
+  h3 a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    margin: 0.2rem 0 0.7rem;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .question {
+    font-size: 0.95rem;
+  }
+
+  .label {
+    font-weight: 600;
+  }
+
+  details {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.9rem;
+    background: var(--surface);
+    font-size: 0.93rem;
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  details[open] summary {
+    margin-bottom: 0.5rem;
+  }
+
+  h4 {
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--faint);
+    margin: 0.75rem 0 0.3rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  li {
+    margin-bottom: 0.3rem;
+  }
+
+  .resources {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 44rem) {
+    .card,
+    .card.featured {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

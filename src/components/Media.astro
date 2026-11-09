@@ -1,0 +1,91 @@
+---
+import { isVideo } from '../lib/inline';
+
+interface Props {
+  src?: string;
+  poster?: string;
+  alt?: string;
+  label: string;
+}
+
+const { src, poster, alt = '', label } = Astro.props;
+---
+
+<div class="media">
+  {
+    src ? (
+      isVideo(src) ? (
+        <video src={src} poster={poster} autoplay muted loop playsinline preload="none" aria-label={alt} data-lazy-video />
+      ) : (
+        <img src={src} alt={alt} loading="lazy" />
+      )
+    ) : (
+      <div class="placeholder" aria-hidden="true">
+        <span>{label}</span>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  // Only start downloading/playing a video when it scrolls into view; pause it when it leaves.
+  const videos = document.querySelectorAll<HTMLVideoElement>('video[data-lazy-video]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    videos.forEach((v) => {
+      v.removeAttribute('autoplay');
+      io.observe(v);
+    });
+  } else {
+    videos.forEach((v) => {
+      v.removeAttribute('autoplay');
+      v.pause();
+    });
+  }
+</script>
+
+<style>
+  .media {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--accent-soft);
+  }
+
+  .media img,
+  .media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background-image: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 1px, transparent 1.5px);
+    background-size: 14px 14px;
+  }
+
+  .placeholder span {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.1em 0.5em;
+    border-radius: 6px;
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import { profile } from '../data/profile';
+
+const rows = [
+  { label: 'Email', value: profile.email, href: `mailto:${profile.email}` },
+  { label: 'GitHub', value: profile.links.github.replace('https://', ''), href: profile.links.github },
+  { label: 'Scholar', value: 'Google Scholar', href: profile.links.scholar },
+  { label: 'LinkedIn', value: 'LinkedIn', href: profile.links.linkedin },
+  { label: 'CV', value: 'Download PDF', href: profile.links.cv },
+].filter((r) => r.href);
+---
+
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Contact</h2>
+    </div>
+    <p class="lede">
+      I am applying to PhD programs for Fall 2027 and am happy to talk about embodied AI, robotic manipulation, and physical reasoning.
+    </p>
+    <dl>
+      {
+        rows.map((r) => (
+          <div>
+            <dt>{r.label}</dt>
+            <dd>
+              <a href={r.href}>{r.value}</a>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  dl {
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  dt {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--faint);
+    padding-top: 0.15rem;
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+</style>
