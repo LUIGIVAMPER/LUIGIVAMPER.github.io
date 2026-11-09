@@ -5,8 +5,9 @@ role: Co-author
 status: NeurIPS 2026 NeMo Workshop · Oral
 stage: understanding
 order: 2
-# cover: /images/projects/mindtopo.png
-coverAlt: Example maze from the MindTopo topological reasoning environment
+cover: /images/projects/mindtopo.png
+coverFit: contain
+coverAlt: "MindTopo overview: reasoning and planning tasks across continuity, separation, order, enclosure, and knots, with a radar chart showing models far below humans"
 question: Can multimodal foundation models reason about continuity, separation, order, enclosure, and knots, and then plan with those relations?
 contribution:
   - Designed the 2D maze-based topological environment used for evaluation.
@@ -15,6 +16,7 @@ contribution:
 findings:
   - "The best model reaches 54.13% accuracy, against a human ceiling of 97.40%."
   - Recognizing a topological relation visually does not mean a model can act on it. Correct perception does not imply correct planning.
-links: {}
+links:
+  paper: https://arxiv.org/abs/2609.11900
 hasPage: false
 ---

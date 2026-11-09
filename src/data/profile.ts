@@ -17,7 +17,7 @@ export const profile = {
     cv: '/cv/Jianwen_Lyu_CV.pdf',
     github: 'https://github.com/LUIGIVAMPER',
     // Fill in when available; empty strings are hidden.
-    scholar: '',
+    scholar: 'https://scholar.google.com/citations?user=4gg3qZQAAAAJ&hl=en',
     linkedin: '',
   },
   headshot: '/images/headshot.jpg',

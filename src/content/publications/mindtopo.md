@@ -6,5 +6,6 @@ year: 2026
 award: Oral
 category: main
 order: 1
-links: {}
+links:
+  paper: https://arxiv.org/abs/2609.11900
 ---

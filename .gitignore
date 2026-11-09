@@ -25,3 +25,5 @@ pnpm-debug.log*
 
 # original photo (the site uses public/images/headshot.jpg)
 /jianwen.jpg
+/enact-fig.png
+/mindtopo-figure.png

@@ -5,8 +5,9 @@ role: Co-author
 status: ICLR 2026 · NeurIPS 2025 LAW Workshop Spotlight
 stage: understanding
 order: 3
-# cover: /images/projects/enact.png
-coverAlt: Egocentric interaction sequence with scene-graph state changes from ENACT
+cover: /images/projects/enact.png
+coverFit: contain
+coverAlt: "ENACT overview: egocentric interaction as a POMDP over scene graphs, forward and inverse world-modeling tasks for VLMs, and accuracy dropping with step count compared to humans"
 question: Do vision-language models understand how egocentric interactions change the state of the world, and how exactly do they fail when they don't?
 contribution:
   - Helped drive the benchmark design; ran ablation experiments and data collection.
@@ -16,6 +17,7 @@ findings:
   - Current VLMs show substantially higher error rates than humans on embodied reasoning tasks.
   - Omission and hallucination account for over 40% of structural errors.
   - Models struggle to track which hand (left or right) is used during egocentric interaction.
-links: {}
+links:
+  paper: https://arxiv.org/abs/2511.20937
 hasPage: false
 ---

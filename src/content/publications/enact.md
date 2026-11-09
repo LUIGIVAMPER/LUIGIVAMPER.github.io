@@ -6,5 +6,6 @@ extraVenues: ["NeurIPS 2025 Workshop on Learning with Limited Labeled Data (LAW)
 year: 2026
 category: main
 order: 2
-links: {}
+links:
+  paper: https://arxiv.org/abs/2511.20937
 ---

@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Media from './Media.astro';
+import { isVideo } from '../lib/inline';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -10,6 +11,8 @@ interface Props {
 const { project, featured = false } = Astro.props;
 const d = project.data;
 const pageHref = d.hasPage ? `/projects/${project.id}/` : undefined;
+// Without a project page, a still-image cover links to the full-size figure instead.
+const mediaHref = pageHref ?? (d.cover && !isVideo(d.cover) ? d.cover : undefined);
 const resources = [
   { label: 'Project page', href: pageHref },
   { label: 'Paper', href: d.links.paper },
@@ -21,8 +24,13 @@ const stageLabel = { understanding: '01 · Understanding', acting: '02 · Acting
 ---
 
 <article id={`project-${project.id}`} class:list={['card', { featured }]}>
-  <a class="media-link" href={pageHref ?? undefined} tabindex={pageHref ? undefined : -1}>
-    <Media src={d.cover} poster={d.poster} alt={d.coverAlt} label={d.title} />
+  <a
+    class="media-link"
+    href={mediaHref}
+    tabindex={mediaHref ? undefined : -1}
+    title={!pageHref && mediaHref ? 'Open full-size figure' : undefined}
+  >
+    <Media src={d.cover} poster={d.poster} alt={d.coverAlt} label={d.title} fit={d.coverFit} />
   </a>
 
   <div class="body">
@@ -71,7 +79,7 @@ const stageLabel = { understanding: '01 · Understanding', acting: '02 · Acting
 <style>
   .card {
     display: grid;
-    grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
     gap: 1.75rem;
     padding-block: 1.75rem;
     border-top: 1px solid var(--line);

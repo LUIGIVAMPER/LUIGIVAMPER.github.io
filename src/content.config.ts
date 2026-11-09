@@ -24,6 +24,8 @@ const projects = defineCollection({
     cover: z.string().optional(),
     /** Still image shown before a video cover loads. */
     poster: z.string().optional(),
+    /** 'contain' shows the whole image (for wide paper figures); 'cover' crops to fill. */
+    coverFit: z.enum(['cover', 'contain']).default('cover'),
     coverAlt: z.string().optional(),
     /** Optional media grid shown on the project page. */
     gallery: z
