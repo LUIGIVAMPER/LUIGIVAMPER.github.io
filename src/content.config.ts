@@ -25,6 +25,14 @@ const projects = defineCollection({
     /** Still image shown before a video cover loads. */
     poster: z.string().optional(),
     coverAlt: z.string().optional(),
+    /** Optional media grid shown on the project page. */
+    gallery: z
+      .object({
+        title: z.string(),
+        note: z.string().optional(),
+        items: z.array(z.object({ src: z.string(), poster: z.string().optional(), caption: z.string() })),
+      })
+      .optional(),
     question: z.string(),
     contribution: z.array(z.string()),
     findings: z.array(z.string()).default([]),
