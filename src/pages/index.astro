@@ -27,6 +27,15 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 
       <ResearchArc />
 
+      <a class="talk-callout" href="/talk/">
+        <img src="/talk/slides/slide-01.png" alt="" width="1920" height="1080" loading="lazy" />
+        <span>
+          <span class="eyebrow">Research slides · 11 slides</span>
+          <strong>From Embodied Understanding to Reliable Robotic Action</strong>
+          <span class="muted">A short walkthrough of my past work and the research directions I want to pursue →</span>
+        </span>
+      </a>
+
       <h3 class="eyebrow sub">Selected research</h3>
       <div class="projects">
         {projects.map((p, i) => <ProjectCard project={p} featured={i === 0} />)}
@@ -44,6 +53,52 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 <style>
   .lede {
     margin-bottom: 2rem;
+  }
+
+  .talk-callout {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: center;
+    margin: -1rem 0 3rem;
+    padding: 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .talk-callout:hover {
+    border-color: var(--accent);
+  }
+
+  .talk-callout img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  .talk-callout > span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .talk-callout strong {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+  }
+
+  .talk-callout .muted {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 34rem) {
+    .talk-callout {
+      grid-template-columns: 1fr;
+    }
   }
 
   .sub {
