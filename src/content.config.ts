@@ -52,6 +52,8 @@ const publications = defineCollection({
     extraVenues: z.array(z.string()).default([]),
     year: z.number(),
     award: z.string().optional(),
+    /** Footnote shown under the entry, e.g. "† Equal contribution". */
+    note: z.string().optional(),
     category: z.enum(['main', 'preparation', 'earlier']),
     order: z.number().default(0),
     links,

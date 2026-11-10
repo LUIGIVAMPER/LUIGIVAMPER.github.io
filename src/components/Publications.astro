@@ -35,7 +35,7 @@ const linkLabels = { paper: 'Paper', project: 'Project', code: 'Code', video: 'V
                     {p.data.authors.map((a, i) => (
                       <>
                         {i > 0 && ', '}
-                        {a === profile.name ? <strong>{a}</strong> : a}
+                        {a.replace(/[*†‡]+$/, '') === profile.name ? <strong>{a}</strong> : a}
                       </>
                     ))}
                   </p>
@@ -46,6 +46,7 @@ const linkLabels = { paper: 'Paper', project: 'Project', code: 'Code', video: 'V
                     </span>
                     {p.data.award && <span class="badge">{p.data.award}</span>}
                   </p>
+                  {p.data.note && <p class="venue also">{p.data.note}</p>}
                   {p.data.extraVenues.map((v) => (
                     <p class="venue also">Also at {v}</p>
                   ))}
