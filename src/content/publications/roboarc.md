@@ -1,7 +1,7 @@
 ---
 title: "RoboARC: Spatial-Constraint Puzzles for Robot Manipulation"
-authors: [Qineng Wang†, Jianwen Lyu†, Pingyue Zhang, Kangrui Wang, et al.]
-note: † Equal contribution
+authors: ["Qineng Wang*†", "Jianwen Lyu*†", Pingyue Zhang, Kangrui Wang, et al.]
+note: "* Equal contribution · † Project co-lead"
 venue: Paper in preparation
 year: 2026
 category: preparation
