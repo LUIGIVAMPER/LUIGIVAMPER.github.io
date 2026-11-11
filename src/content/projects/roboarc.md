@@ -1,6 +1,6 @@
 ---
 title: RoboARC
-subtitle: Spatial-Constraint Puzzles for Robot Manipulation
+subtitle: "Can Robots Think with Their Grippers? Benchmarking Physical Puzzles under Spatial Constraints"
 role: Co-lead
 status: Ongoing · Public preview · Paper in preparation
 stage: acting

@@ -1,7 +1,7 @@
 ---
-title: "RoboARC: Spatial-Constraint Puzzles for Robot Manipulation"
-authors: ["Qineng Wang*†", "Jianwen Lyu*†", Pingyue Zhang, Kangrui Wang, et al.]
-note: "* Equal contribution · † Project co-lead"
+title: "Can Robots Think with Their Grippers? Benchmarking Physical Puzzles under Spatial Constraints"
+authors: ["Qineng Wang*", "Jianwen Lyu*", "Pingyue Zhang*", "Reuben Tan†", "Xiaoyu Huang†", "Tonghe Zhang†", Kangrui Wang, Yelong Shen, Jianfeng Gao, Guanya Shi, Ruohan Zhang, Manling Li]
+note: "* Equal contribution"
 venue: Paper in preparation
 year: 2026
 category: preparation
